@@ -2,12 +2,12 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { SiteShell, Badge } from "@/components/SiteShell";
 import { occupations, categories, formats, filterOccupations, formatZAR } from "@/data/skills";
 
-type Search = { q: string; category: string; format: string; freeCert: boolean; lowData: boolean };
-const str = (v: unknown) => (typeof v === "string" ? v : "");
-const bool = (v: unknown) => v === true || v === "true";
+type Search = { q?: string; category?: string; format?: string; freeCert?: boolean; lowData?: boolean };
+const str = (v: unknown) => (typeof v === "string" && v ? v : undefined);
+const bool = (v: unknown) => v === true || v === "true" || undefined;
 
 export const Route = createFileRoute("/")({
-  validateSearch: (r: Record<string, unknown>): Search => ({ q: str(r.q), category: str(r.category), format: str(r.format), freeCert: bool(r.freeCert), lowData: bool(r.lowData) }),
+  validateSearch: (r: Record<string, unknown>): Search => ({ q: str(r["q"]), category: str(r["category"]), format: str(r["format"]), freeCert: bool(r["freeCert"]), lowData: bool(r["lowData"]) }),
   head: () => ({
     meta: [
       { title: "SkillsPathway.za — Free roadmaps for SA's scarce digital skills" },
@@ -22,7 +22,8 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const s = Route.useSearch();
+  const raw = Route.useSearch();
+  const s = { q: raw.q ?? "", category: raw.category ?? "", format: raw.format ?? "", freeCert: !!raw.freeCert, lowData: !!raw.lowData };
   const navigate = useNavigate({ from: "/" });
   const set = (patch: Partial<Search>) => navigate({ search: (p) => ({ ...p, ...patch }), replace: true });
   const list = filterOccupations(occupations, s);
