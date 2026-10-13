@@ -20,7 +20,7 @@ export const Route = createFileRoute("/occupations/$slug")({
   }),
   component: Page,
   notFoundComponent: () => <SiteShell><p>Occupation not found. <Link to="/" className="text-primary underline">Back to all</Link></p></SiteShell>,
-  errorComponent: ({ error }) => <SiteShell><p role="alert">{error.message}</p></SiteShell>,
+  errorComponent: ({ error }) => <SiteShell><p role="alert">{error instanceof Error ? error.message : String(error)}</p></SiteShell>,
 });
 
 function Page() {
