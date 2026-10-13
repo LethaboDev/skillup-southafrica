@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AcademiesRouteImport } from './routes/academies'
+import { Route as OccupationsSlugRouteImport } from './routes/occupations.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AcademiesRoute = AcademiesRouteImport.update({
+  id: '/academies',
+  path: '/academies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OccupationsSlugRoute = OccupationsSlugRouteImport.update({
+  id: '/occupations/$slug',
+  path: '/occupations/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/academies': typeof AcademiesRoute
+  '/occupations/$slug': typeof OccupationsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/academies': typeof AcademiesRoute
+  '/occupations/$slug': typeof OccupationsSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/academies': typeof AcademiesRoute
+  '/occupations/$slug': typeof OccupationsSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/academies' | '/occupations/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/academies' | '/occupations/$slug'
+  id: '__root__' | '/' | '/academies' | '/occupations/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AcademiesRoute: typeof AcademiesRoute
+  OccupationsSlugRoute: typeof OccupationsSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +68,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/academies': {
+      id: '/academies'
+      path: '/academies'
+      fullPath: '/academies'
+      preLoaderRoute: typeof AcademiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/occupations/$slug': {
+      id: '/occupations/$slug'
+      path: '/occupations/$slug'
+      fullPath: '/occupations/$slug'
+      preLoaderRoute: typeof OccupationsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AcademiesRoute: AcademiesRoute,
+  OccupationsSlugRoute: OccupationsSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
