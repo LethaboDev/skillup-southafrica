@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { SiteShell, Badge } from "@/components/SiteShell";
 import { occupations, categories, formats, filterOccupations, formatZAR } from "@/data/skills";
 
-type Search = { q?: string; category?: string; format?: string; freeCert?: boolean; lowData?: boolean };
+type Search = { q?: string | undefined; category?: string | undefined; format?: string | undefined; freeCert?: boolean | undefined; lowData?: boolean | undefined };
 const str = (v: unknown) => (typeof v === "string" && v ? v : undefined);
 const bool = (v: unknown) => v === true || v === "true" || undefined;
 
