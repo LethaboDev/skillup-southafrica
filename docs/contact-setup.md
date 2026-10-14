@@ -3,8 +3,9 @@
 The contact section appears on every page and sends through a TanStack Start
 server function. The recipient address and API key stay on the server. No
 database is needed. A live activation test on 14 October 2026 was accepted by
-Resend (HTTP 200) through the server delivery handler. Inbox receipt still
-needs confirmation. The sending-only API key cannot query delivery status.
+Resend (HTTP 200) through the server delivery handler. After deployment to Azure,
+the owner confirmed that a live contact-form test email arrived. The sending-only
+API key cannot query delivery status.
 
 ## Activate delivery
 

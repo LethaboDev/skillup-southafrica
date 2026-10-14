@@ -1,8 +1,21 @@
-# Azure deployment preparation
+# Azure deployment
 
-Prepared on 14 October 2026. No Azure resources have been created and nothing
-has been deployed. Subscription type, available credits, region quotas and
-resource pricing still require verification in the owner's Azure account.
+Prepared and deployed on 14 October 2026 using the owner's Azure for Students
+subscription. The app runs on Linux, Node 24 LTS and the Free F1 App Service plan
+in South Africa North. The owner confirmed live contact-form email delivery.
+
+[Live application](https://skillup-southafrica-lethabo-axaddkaafkbnejdz.southafricanorth-01.azurewebsites.net)
+
+The initial CLI deployment reported a startup timeout. Subsequent Azure runtime
+status showed the site Started and listening on port 8080; the recorded failure
+predated that deployment. The hosted app passed 27 browser checks and continued
+responding with HTTP 200. The precise cause of the CLI status mismatch was not
+confirmed; inspect current runtime status and logs when investigating future
+startup errors.
+
+No custom domain is connected. The original Lovable-GitHub connection remains
+in place, and Azure deployments currently use the prebuilt ZIP rather than
+continuous deployment.
 
 ## Build and package locally
 
@@ -46,14 +59,14 @@ container registry or Kubernetes cluster is required for the current app.
 
 Configure these server settings on the Azure app:
 
-| Setting | Value |
-| --- | --- |
-| Startup command | `node /home/site/wwwroot/server/index.mjs` |
-| `NODE_ENV` | `production` |
-| `SCM_DO_BUILD_DURING_DEPLOYMENT` | `false` — the ZIP is already built |
-| `RESEND_API_KEY` | Owner's private Resend sending key |
-| `CONTACT_TO_EMAIL` | Owner's private recipient address |
-| `CONTACT_FROM_EMAIL` | Approved Resend sender address |
+| Setting                          | Value                                      |
+| -------------------------------- | ------------------------------------------ |
+| Startup command                  | `node /home/site/wwwroot/server/index.mjs` |
+| `NODE_ENV`                       | `production`                               |
+| `SCM_DO_BUILD_DURING_DEPLOYMENT` | `false` — the ZIP is already built         |
+| `RESEND_API_KEY`                 | Owner's private Resend sending key         |
+| `CONTACT_TO_EMAIL`               | Owner's private recipient address          |
+| `CONTACT_FROM_EMAIL`             | Approved Resend sender address             |
 
 App Service supplies `PORT`; Nitro's Node server listens on it. The startup
 command should run the Node server directly. Keep the email settings in the

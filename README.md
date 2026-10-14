@@ -1,70 +1,125 @@
-# Skillup Southafrica
+# SkillUp South Africa
 
-Build an EdTech platform for South Africans to find scarce digital skills and courses according to the Department of Higher Education and Training (DHET) National List of Occupations in High Demand (including Software Developer, Cybersecurity Analyst, Data Analyst, Cloud Architect). 
+A career and learning directory that helps South Africans explore high-demand
+digital occupations, follow curated learning roadmaps, and find tech academies
+and learnership programmes.
 
-For each high-demand digital occupation:
-- Show its DHET OFO code, national demand tier, and typical entry-level South African salary ranges in ZAR.
-- Provide curated, zero-cost step-by-step learning roadmaps linking to free courses and platforms (including cybersecurity pathways and free labs inspired by https://cybersecurity-simplified.com/, freeCodeCamp, CS50, and Microsoft/AWS free tiers).
-- Connect learners to top South African youth tech academies, bootcamps, and sponsored internship/learnership pipelines: Deviare Academy, Umuzi, WeThinkCode_, UVU Africa (Capaciti), and Shaper.
-- Include data-saving indicators (low-data/text-friendly flags) and searchable filters by role category, free certification availability, and learning format.
+**Maintained by [Lethabo Ratau](https://github.com/LethaboDev).**
 
-This project was built with [Lovable](https://lovable.dev).
+[Visit the live application](https://skillup-southafrica-lethabo-axaddkaafkbnejdz.southafricanorth-01.azurewebsites.net)
 
-## Build with Lovable
+## Features
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/26b8f05c-3df7-410a-8536-30d484d2491a).
+- Six digital occupations with OFO codes, demand labels and indicative entry-level salary ranges in ZAR.
+- Step-by-step learning roadmaps with links to external courses and labs.
+- Search and filters for category, learning format, free certificate availability and low-data resources.
+- Shareable filtered views through URL search parameters.
+- Five South African academy and learnership listings, with external application links.
+- A contact form that delivers messages through a server-side Resend integration.
+- Responsive layouts, missing-page handling and a South African flag favicon with SP lettering.
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+Occupation, roadmap and academy content is maintained in
+[src/data/skills.ts](src/data/skills.ts). The curated directory does not require
+a database. Learner accounts and saved progress are not currently implemented.
+The interface currently displays **SkillsPathway.za** branding.
 
-## Development
+OFO codes reference the DHET National List of Occupations in High Demand.
+Demand labels, salaries, course access, certificate offers and programme details
+need checking against current sources. Low-data labels describe linked resources;
+they do not provide an offline mode.
 
-Use **Node.js 22.12 or newer** and **Bun**. TanStack Start requires Node >=22.12;
-the local setup was verified with Node 24.19.0 and Bun 1.3.11. The repository
-does not currently pin tool versions. `bun.lock` is the dependency lockfile;
-use Bun rather than `npm install` to preserve the locked dependency versions.
+## Technology
 
-If these tools are missing from your IntelliJ terminal, install Node 24 LTS
-from [Node.js](https://nodejs.org/en/download) and Bun using the
-[official installation instructions](https://bun.sh/docs/installation), then
-restart the terminal. IntelliJ's agent runtime may provide Node to the agent
-without providing it to your regular terminal.
+| Area                         | Technology                                     |
+| ---------------------------- | ---------------------------------------------- |
+| Interface                    | React 19 and TypeScript                        |
+| Routing and server rendering | TanStack Start and TanStack Router             |
+| Styling and UI components    | Tailwind CSS 4 and Radix/shadcn components     |
+| Build and server output      | Vite 8 and Nitro                               |
+| Package manager              | Bun, with dependencies locked in `bun.lock`    |
+| Tests and checks             | Vitest, Testing Library, TypeScript and ESLint |
+| Email delivery               | Resend, called only from the server            |
+| Current hosting              | Azure App Service, Linux and Node 24 LTS       |
+
+## Run locally
+
+Use **Node.js 22.12 or newer**; Node 24 LTS is recommended. The setup was tested
+with Node 24.19.0 and Bun 1.3.11. Install [Node.js](https://nodejs.org/en/download)
+and [Bun](https://bun.sh/docs/installation) if needed.
 
 ```sh
-node --version
-bun --version
+git clone https://github.com/LethaboDev/skillup-southafrica.git
+cd skillup-southafrica
 bun install --frozen-lockfile
 bun run dev --host 127.0.0.1
 ```
 
-Open the address printed by Vite (normally http://127.0.0.1:8080).
-Browsing occupations and academies needs no credentials. Contact form delivery
-requires private email settings; see [contact setup](docs/contact-setup.md).
+Open the address printed by Vite, normally http://127.0.0.1:8080.
+Use Bun for installation so the existing lockfile is respected.
+
+Browsing occupations and academies needs no credentials. To enable local
+contact-form delivery, copy `.env.example` to `.env.local` and enter your own
+server settings. See [contact setup](docs/contact-setup.md).
+
+## Check the code
 
 ```sh
-bun run build
 bun run test
 bun run lint
 bunx --no-install tsc --noEmit
+bun run build
 ```
 
-After building, `bun run preview` previews the production build at
-http://127.0.0.1:4173 using a pinned Wrangler CLI (downloaded on first use).
-It runs locally without Cloudflare credentials or deployment. The preview
-uses compatibility date 2026-10-13, the latest date supported by that CLI's
-runtime; this override does not change the production build's date.
-The current build
-uses Nitro's `cloudflare-module` target; `.output/public` alone is not the
-complete server-rendered app.
+The application passed production browser checks in Chromium and WebKit,
+including filtering, navigation, direct roadmap URLs, 404 recovery and mobile
+layouts. See [application verification](docs/application-check.md) for the scope
+and limits of those checks.
 
-See [the initial project audit](docs/project-audit.md) for implemented features,
-service dependencies, verification limits and next steps.
+## Builds and deployment
 
-## Azure hosting preparation
+| Command                 | Purpose                                                  |
+| ----------------------- | -------------------------------------------------------- |
+| `bun run build`         | Build the Cloudflare-targeted output in `.output`        |
+| `bun run preview`       | Preview that build locally using pinned Wrangler tooling |
+| `bun run build:azure`   | Build a standalone Node server in `.output-azure`        |
+| `bun run package:azure` | Create `.deploy/skillup-southafrica-azure.zip`           |
+| `bun run start:azure`   | Start the Azure Node build locally                       |
 
-`bun run build:azure` creates a separate Node server build. Then
-`bun run package:azure` creates a prebuilt deployment ZIP, and
-`bun run start:azure` runs that server locally. See
-[Azure deployment preparation](docs/azure-deployment.md) for the tested package
-and proposed App Service settings. These commands do not publish the app.
+For an Azure-build preview on your Mac:
+
+```sh
+bun run build:azure
+PORT=4175 HOST=127.0.0.1 bun run start:azure
+```
+
+The live app is deployed independently on Azure App Service using a prebuilt
+ZIP. These local build and packaging commands do not deploy it. Pushing source
+changes to GitHub does not automatically update Azure; rebuild and deploy a new
+ZIP for each release. See [Azure deployment](docs/azure-deployment.md).
+
+This app includes server code. Deploying only its static `public` output will
+not run the complete app or its contact form.
+
+## Private settings
+
+The contact form uses `RESEND_API_KEY`, `CONTACT_TO_EMAIL` and
+`CONTACT_FROM_EMAIL`. Configure them in `.env.local` for local development and
+in Azure's server-side app settings for hosting. The standalone Node build does
+not automatically load `.env.local`.
+
+Keep real keys and recipient addresses out of Git and browser code. Never
+prefix private settings with `VITE_`. `.env.example` contains placeholders;
+environment files and generated deployment output are ignored by Git.
+
+## Development workflow and attribution
+
+The initial prototype was created with [Lovable](https://lovable.dev), and the
+repository remains connected to the
+[Lovable project](https://lovable.dev/projects/26b8f05c-3df7-410a-8536-30d484d2491a).
+Development continues locally in IntelliJ, with commits under the maintainer's
+Git identity. Changes pushed to the connected `main` branch sync with Lovable.
+Preserve published Git history; do not force-push or rewrite pushed commits.
+
+See [AGENTS.md](AGENTS.md) for repository instructions and the
+[project audit](docs/project-audit.md) for service dependencies and remaining
+release work.
