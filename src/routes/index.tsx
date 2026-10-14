@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteShell, Badge } from "@/components/SiteShell";
 import { occupations, categories, formats, filterOccupations, formatZAR } from "@/data/skills";
 
@@ -12,6 +12,8 @@ type Search = {
 const str = (v: unknown) => (typeof v === "string" && v ? v : undefined);
 const bool = (v: unknown) => v === true || v === "true" || undefined;
 
+// The generated route declarations include "/"; tsc checks this call correctly.
+//noinspection TypeScriptValidateTypes
 export const Route = createFileRoute("/")({
   validateSearch: (r: Record<string, unknown>): Search => ({
     q: str(r["q"]),
@@ -52,9 +54,9 @@ function Index() {
     freeCert: !!raw.freeCert,
     lowData: !!raw.lowData,
   };
-  const navigate = useNavigate({ from: "/" });
+  const navigate = Route.useNavigate();
   const set = (patch: Partial<Search>) =>
-    navigate({ search: (p) => ({ ...p, ...patch }), replace: true });
+    navigate({ search: (previous: Search): Search => ({ ...previous, ...patch }), replace: true });
   const list = filterOccupations(occupations, s);
 
   return (
