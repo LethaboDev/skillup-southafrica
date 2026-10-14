@@ -20,11 +20,43 @@ Continue developing this project in the [Lovable editor](https://lovable.dev/pro
 
 ## Development
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Use **Node.js 22.12 or newer** and **Bun**. TanStack Start requires Node >=22.12;
+the local setup was verified with Node 24.19.0 and Bun 1.3.11. The repository
+does not currently pin tool versions. `bun.lock` is the dependency lockfile;
+use Bun rather than `npm install` to preserve the locked dependency versions.
+
+If these tools are missing from your IntelliJ terminal, install Node 24 LTS
+from [Node.js](https://nodejs.org/en/download) and Bun using the
+[official installation instructions](https://bun.sh/docs/installation), then
+restart the terminal. IntelliJ's agent runtime may provide Node to the agent
+without providing it to your regular terminal.
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+node --version
+bun --version
+bun install --frozen-lockfile
+bun run dev --host 127.0.0.1
 ```
+
+Open the address printed by Vite (normally http://127.0.0.1:8080).
+Browsing occupations and academies needs no credentials. Contact form delivery
+requires private email settings; see [contact setup](docs/contact-setup.md).
+
+```sh
+bun run build
+bun run test
+bun run lint
+bunx --no-install tsc --noEmit
+```
+
+After building, `bun run preview` previews the production build at
+http://127.0.0.1:4173 using a pinned Wrangler CLI (downloaded on first use).
+It runs locally without Cloudflare credentials or deployment. The preview
+uses compatibility date 2026-10-13, the latest date supported by that CLI's
+runtime; this override does not change the production build's date.
+The current build
+uses Nitro's `cloudflare-module` target; `.output/public` alone is not the
+complete server-rendered app.
+
+See [the initial project audit](docs/project-audit.md) for implemented features,
+service dependencies, verification limits and next steps.
