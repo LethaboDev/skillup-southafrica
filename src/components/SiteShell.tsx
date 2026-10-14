@@ -9,7 +9,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-5 py-4">
           <Link to="/" className="font-display text-2xl font-extrabold tracking-tight">
             Skills<span className="text-primary">Pathway</span>
-            <span className="text-accent">.za</span>
+            <span className="text-primary">.za</span>
           </Link>
           <nav className="flex gap-5 text-sm font-semibold">
             <Link

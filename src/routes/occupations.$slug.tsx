@@ -59,7 +59,9 @@ function Page() {
         <Badge tone="accent">{o.tier} demand</Badge>
         <Badge>{o.category}</Badge>
       </div>
-      <h1 className="mt-3 font-display text-5xl font-extrabold tracking-tight">{o.title}</h1>
+      <h1 className="mt-3 break-words font-display text-4xl font-extrabold tracking-tight sm:text-5xl">
+        {o.title}
+      </h1>
       <p className="mt-2 max-w-2xl text-lg text-muted-foreground">{o.summary}</p>
 
       <dl className="mt-8 grid gap-4 sm:grid-cols-3">

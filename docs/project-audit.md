@@ -3,6 +3,9 @@
 Inspected locally on 14 October 2026. This is an initial development audit,
 not a migration or deployment.
 
+For the later production browser, mobile, accessibility and contact-flow
+verification, see [application verification](application-check.md).
+
 Subsequent change: a contact form and server-side Resend delivery adapter were
 added at the user's request. This introduces an email service dependency for
 message delivery only. The initial service inventory below describes the app
