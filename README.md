@@ -60,3 +60,11 @@ complete server-rendered app.
 
 See [the initial project audit](docs/project-audit.md) for implemented features,
 service dependencies, verification limits and next steps.
+
+## Azure hosting preparation
+
+`bun run build:azure` creates a separate Node server build. Then
+`bun run package:azure` creates a prebuilt deployment ZIP, and
+`bun run start:azure` runs that server locally. See
+[Azure deployment preparation](docs/azure-deployment.md) for the tested package
+and proposed App Service settings. These commands do not publish the app.

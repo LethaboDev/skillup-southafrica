@@ -6,6 +6,9 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
+    "build:azure": "node scripts/build-azure.mjs",
+    "package:azure": "node scripts/package-azure.mjs",
+    "start:azure": "node .output-azure/server/index.mjs",
     "build:dev": "vite build --mode development",
     "preview": "bunx wrangler@4.150.0 dev --config .output/server/wrangler.json --local --ip 127.0.0.1 --port 4173 --compatibility-date 2026-10-13",
     "lint": "eslint .",

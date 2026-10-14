@@ -8,6 +8,9 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 import { loadEnv, type ConfigEnv } from "vite";
 
 const appConfig = defineConfig({
+  ...(process.env["SKILLUP_AZURE_BUILD"] === "1"
+    ? { nitro: { preset: "node-server", output: { dir: ".output-azure" } } }
+    : {}),
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this

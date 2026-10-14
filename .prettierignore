@@ -1,6 +1,8 @@
 node_modules
 dist
 .output
+.output-azure
+.deploy
 .vinxi
 pnpm-lock.yaml
 package-lock.json
