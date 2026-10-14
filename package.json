@@ -7,7 +7,7 @@
     "dev": "vite dev",
     "build": "vite build",
     "build:dev": "vite build --mode development",
-    "preview": "vite preview",
+    "preview": "bunx wrangler@4.150.0 dev --config .output/server/wrangler.json --local --ip 127.0.0.1 --port 4173 --compatibility-date 2026-10-13",
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "vitest run",
