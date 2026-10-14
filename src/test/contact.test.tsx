@@ -3,9 +3,10 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { ContactSection } from "@/components/ContactSection";
 import { deliverContactMessage } from "@/lib/contact.server";
-import { sendContactMessage } from "@/lib/contact";
 
-vi.mock("@/lib/contact", () => ({ sendContactMessage: vi.fn() }));
+const { sendContactMock } = vi.hoisted(() => ({ sendContactMock: vi.fn() }));
+
+vi.mock("@/lib/contact", () => ({ sendContactMessage: sendContactMock }));
 
 const input = {
   name: "Visitor",
@@ -56,7 +57,7 @@ describe("Contact delivery", () => {
 
 describe("Contact form", () => {
   it("preserves the visitor's message when sending fails and clears it only after success", async () => {
-    vi.mocked(sendContactMessage).mockResolvedValueOnce({
+    sendContactMock.mockResolvedValueOnce({
       success: false,
       message: "Please try again later.",
     });
@@ -67,7 +68,7 @@ describe("Contact form", () => {
     fireEvent.submit(screen.getByRole("button", { name: "Send message" }).closest("form")!);
     await screen.findByRole("alert");
     expect(screen.getByLabelText("Your message")).toHaveValue(input.message);
-    vi.mocked(sendContactMessage).mockResolvedValueOnce({
+    sendContactMock.mockResolvedValueOnce({
       success: true,
       message: "Your message has been sent.",
     });

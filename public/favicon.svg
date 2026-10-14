@@ -10,7 +10,7 @@
     <path fill="#007a4d" d="M0 3l17 10h15v6H17L0 29z"/>
     <path fill="#ffb612" d="M0 6l15 10L0 26z"/>
     <path fill="#000" d="M0 9l11 7L0 23z"/>
-    <g fill="#fff" stroke="#10243a" stroke-width="1.5" stroke-linejoin="round" paint-order="stroke fill">
+    <g fill="#fff" stroke="#10243a" stroke-width="1.5" stroke-linejoin="round" style="paint-order: stroke fill">
       <path d="M6 10h9v3H9v2h6v7H6v-3h6v-2H6z"/>
       <path fill-rule="evenodd" d="M18 10h9v8h-6v4h-3z M21 13v2h3v-2z"/>
     </g>
